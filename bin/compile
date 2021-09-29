@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+FONTS_FILE="$BUILD_DIR/fonts.tar.gz"
+TARGET_DIR="$BUILD_DIR/.fonts"
+
+mkdir -p "$TARGET_DIR"
+if [ -f $FONTS_FILE ]; then
+  echo 'Fonts archive found'
+  tar -xzf "$FONTS_FILE" -C "$TARGET_DIR"
+
+  echo 'Build font information caches'
+  fc-cache -fv
+else
+  echo "Fonts archive $FONTS_FILE not found"
+fi
