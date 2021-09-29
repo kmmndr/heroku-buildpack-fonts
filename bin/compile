@@ -10,11 +10,13 @@ TARGET_DIR="$BUILD_DIR/.fonts"
 
 mkdir -p "$TARGET_DIR"
 if [ -f $FONTS_FILE ]; then
-  echo 'Fonts archive found'
-  tar -xzf "$FONTS_FILE" -C "$TARGET_DIR"
+  echo '-----> Fonts archive found, extrating archive...'
+  tar -xvzf "$FONTS_FILE" -C "$TARGET_DIR"
 
-  echo 'Build font information caches'
+  echo '-----> Building font information caches...'
   fc-cache -fv
+
+  echo '-----> Font cache updated successfully!'
 else
-  echo "Fonts archive $FONTS_FILE not found"
+  echo "-----> Fonts archive $FONTS_FILE not found!"
 fi
