@@ -12,6 +12,17 @@ refresh_cache=0
 
 mkdir -p "$FONTS_DIR"
 
+id
+getent passwd
+mount
+ls -ld /app
+folder=$(pwd)
+ls -ld $folder
+pushd ~
+folder=$(pwd)
+ls -ld $folder
+popd
+
 if ! find $FONTS_DIR -prune -empty | read v; then
   echo '-----> Fonts folder found...'
   refresh_cache=1
