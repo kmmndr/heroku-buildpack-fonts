@@ -3,20 +3,29 @@
 set -e
 
 BUILD_DIR=$1
-CACHE_DIR=$2
+# CACHE_DIR=$2
 
 FONTS_FILE="$BUILD_DIR/fonts.tar.gz"
-TARGET_DIR="$BUILD_DIR/.fonts"
+FONTS_DIR="$BUILD_DIR/.fonts"
 
-mkdir -p "$TARGET_DIR"
-if [ -f $FONTS_FILE ]; then
+refresh_cache=0
+
+mkdir -p "$FONTS_DIR"
+
+if ! find $FONTS_DIR -prune -empty | read v; then
+  echo '-----> Fonts folder found...'
+  refresh_cache=1
+elif [ -f $FONTS_FILE ]; then
   echo '-----> Fonts archive found, extrating archive...'
-  tar -xvzf "$FONTS_FILE" -C "$TARGET_DIR"
+  tar -xvzf "$FONTS_FILE" -C "$FONTS_DIR"
+  refresh_cache=1
+else
+  echo "-----> Fonts archive and folder not found!"
+fi
 
+if [ $refresh_cache -eq 1 ]; then
   echo '-----> Building font information caches...'
   fc-cache -fv
 
   echo '-----> Font cache updated successfully!'
-else
-  echo "-----> Fonts archive $FONTS_FILE not found!"
 fi
